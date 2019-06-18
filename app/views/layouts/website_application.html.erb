@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ArtistMidfire</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link href="/assets/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="tm-header" style="background: #f6f0f2">
+		<div class="container">
+  			<div class="row">
+  				<div class="col-lg-6 col-md-4 col-sm-3 tm-site-name-container">
+  					<a href="<%=root_path%>" class="tm-site-name">Logo</a>	
+  				</div>
+	  			<div class="col-lg-6 col-md-8 col-sm-9">
+	  				<div class="mobile-menu-icon">
+		              <i class="fa fa-bars"></i>
+		            </div>
+	  				<nav class="tm-nav">
+						<ul>
+							<li>
+        						<li style="margin-left:35%;margin-top: 8%;"><%=@user.present? ? @user.full_name.present? ?  'Welcome' +' '+ @user.full_name + "  | " : "" : ''%></li> 
+      						</li>  
+							<li class="pull-right" >
+                <%if @user.present?%>
+                  <a href="<%=logout_path%>" style="margin-left: -21%;padding: 45px 12px 15px 34px;">Log Out</a>
+							  <%else%>
+                  <li class="pull-right"><a href="" data-target="#sign-in-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Sign In</a>
+                <%end%>
+              </li>
+						</ul>
+					</nav>		
+	  			</div>				
+  			</div>
+  		</div>	  	
+  	</div>
+<%= yield %>
+
+</body>
+</html>
+
+ <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Sign In</h4>
+      </div>
+      <div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,url: user_login_path,html: {:id=>"sign_in_form"}, :authenticity_token => true do |f|%>
+          <div class="row">
+            
+            User Name or Email:
+            <input type="text" name="email" placeholder="User Name or Email" id="email" class="form-control" autocomplete="off">
+          </div><br>
+          <div class="row">
+            <!-- <input type="hidden" name="category_id" id="category_id" value=""> -->                 
+           Password :
+            <input type="password" name="password" placeholder="Password" id="password" class="form-control" autocomplete="off">
+
+          </div><br>         
+          <div class="row">
+              <input type="submit" class="btn theme-btn form-control" value="Login" id="sign_in" style="background-color: #d2cdcd;">
+            </div>
+        <%end%>
+        <br>
+          <div class="row">
+            <a href="#register-modal" data-target="#register-modal" data-toggle="modal"  data-backdrop="static" data-dismiss="modal">New User? register here</a><br>
+            <a href="#" data-target="#forgot-modal" data-toggle="modal"  data-backdrop="static" data-dismiss="modal">Forgot Password</a>
+          </div>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Sign Up</h4>
+      </div>
+      <div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,url: sign_up_path,html: {:id=>"sign_in_form"}, :authenticity_token => true do |f|%>
+            
+            <td><%= f.label 'Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :full_name, class: "form-control", placeholder: "Full Name", required: true%></td>
+
+            <td width="30%"><%= f.label 'Email*', class: 'control-label' %></td>
+            <td><%= f.email_field :email, class: "form-control email", placeholder: "Email", autofocus: true, required: true %></td>
+             <td><%= f.label 'Phone*', class: 'control-label' %></td>
+             <td><%= f.phone_field :contact_number, class: "form-control", placeholder: "Phone", required: true, number: true, maxlength: 256 %></td>
+             <td><%= f.label 'City*', class: 'control-label' %></td>
+            <td><%= f.text_field :city, class: "form-control", placeholder: "City Name", required: true%></td>
+            <td><%= f.label 'Country*', class: 'control-label' %></td>
+            <td><%= f.country_select :country, { priority: %w(GB US), prompt: "Country"}, class: 'form-control country-select', :required=>true %></td>
+            <td><%= f.label 'User Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :user_name, class: "form-control", placeholder: "User Name", required: true%></td>
+            
+            <td><%= f.label 'Password*', class: 'control-label' %></td>
+            <td><%= f.password_field :password, placeholder: "Password", class: "form-control password", autocomplete: "off", required: true, minlength: 8 %></td>
+            <br>
+             <td align="center">
+              <input type="submit" class="btn theme-btn form-control" value="Submit" id="sign_in" style="background-color: #d2cdcd;">
+            </td>
+        <%end%>
+        <br>
+        
+      </div>  
+    </div>
+  </div>
+</div>

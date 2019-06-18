@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artist</title>
+
+  <link href="/assets/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/bootstrap.min.css" rel="stylesheet">
+ 
+
+ </head>
+  <body class="tm-gray-bg">
+  	<!-- Header -->
+  	<div class="tm-header" style="background: #f6f0f2">
+  		<div class="container">
+  			<div class="row">
+  				<div class="col-lg-6 col-md-4 col-sm-3 tm-site-name-container">
+  					<a href="#" class="tm-site-name">Logo</a>	
+  				</div>
+	  			<div class="col-lg-6 col-md-8 col-sm-9">
+	  				<div class="mobile-menu-icon">
+		              <i class="fa fa-bars"></i>
+		            </div>
+	  				<nav class="tm-nav">
+						<ul>
+							<li class="pull-right"><a href="" data-target="#sign-in-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Sign In</a>
+							</li>
+						</ul>
+					</nav>		
+	  			</div>				
+  			</div>
+  		</div>	  	
+  	</div>
+	
+	<section class="container tm-home-section-1" id="more">
+		<div class="section-margin-top">
+			
+			<div class="row">
+      <%@users.each do |user|%>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12" style="border: 1px solid black;border-radius: 4px; padding: 18px;margin-left: 2%;margin-bottom: 2%;">
+					<div class="tm-home-box-2">						
+						<img src="<%=user.profile_img.present? ? "#{user.profile_img}" : "/assets/placeholder.png"%>" style="width: 100%">						
+					</div>
+          <div style="margin-top: 4%;">
+            <center><a href="<%=artist_profile_path(encode_token(user.id))%>"><%=user.full_name.capitalize%></a></center>
+				  </div>
+        </div>
+      <%end%>  						
+			</div>				
+		</div>
+	</section>		
+		
+
+	<script type="text/javascript" src="/assets/jquery-1.11.2.min.js"></script>      		<!-- jQuery -->
+  	<!-- <script type="text/javascript" src="/assets/moment.js"></script>							!-- moment.js --> 
+	<script type="text/javascript" src="/assets/bootstrap.min.js"></script>					<!-- bootstrap js -->
+	
+
+ </body>
+ </html>
+
+ <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Sign In</h4>
+      </div>
+      <div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,url: user_login_path,html: {:id=>"sign_in_form"}, :authenticity_token => true do |f|%>
+          <div class="row">
+            
+            User Name or Email:
+            <input type="text" name="email" placeholder="User Name or Email" id="email" class="form-control" autocomplete="off">
+          </div><br>
+          <div class="row">
+            <!-- <input type="hidden" name="category_id" id="category_id" value=""> -->                 
+           Password :
+            <input type="password" name="password" placeholder="Password" id="password" class="form-control" autocomplete="off">
+
+          </div><br>         
+        	<div class="row">
+            	<input type="submit" class="btn theme-btn form-control" value="Login" id="sign_in" style="background-color: #d2cdcd;">
+          	</div>
+        <%end%>
+        <br>
+        	<div class="row">
+        		<a href="#register-modal" data-target="#register-modal" data-toggle="modal"  data-backdrop="static" data-dismiss="modal">New User? register here</a><br>
+        		<a href="#" data-target="#forgot-modal" data-toggle="modal"  data-backdrop="static" data-dismiss="modal">Forgot Password</a>
+         	</div>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Sign Up</h4>
+      </div>
+      <div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,url: sign_up_path,html: {:id=>"sign_in_form"}, :authenticity_token => true do |f|%>
+          	
+            <td><%= f.label 'Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :full_name, class: "form-control", placeholder: "Full Name", required: true%></td>
+
+            <td width="30%"><%= f.label 'Email*', class: 'control-label' %></td>
+            <td><%= f.email_field :email, class: "form-control email", placeholder: "Email", autofocus: true, required: true %></td>
+             <td><%= f.label 'Phone*', class: 'control-label' %></td>
+             <td><%= f.phone_field :contact_number, class: "form-control", placeholder: "Phone", required: true, number: true, maxlength: 256 %></td>
+             <td><%= f.label 'City*', class: 'control-label' %></td>
+            <td><%= f.text_field :city, class: "form-control", placeholder: "City Name", required: true%></td>
+            <td><%= f.label 'Country*', class: 'control-label' %></td>
+            <td><%= f.country_select :country, { priority: %w(GB US), prompt: "Country"}, class: 'form-control country-select', :required=>true %></td>
+            <td><%= f.label 'User Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :user_name, class: "form-control", placeholder: "User Name", required: true%></td>
+      			
+      			<td><%= f.label 'Password*', class: 'control-label' %></td>
+            <td><%= f.password_field :password, placeholder: "Password", class: "form-control password", autocomplete: "off", required: true, minlength: 8 %></td>
+            <br>
+             <td align="center">
+              <input type="submit" class="btn theme-btn form-control" value="Submit" id="sign_in" style="background-color: #d2cdcd;">
+            </td>
+        <%end%>
+        <br>
+        
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="forgot-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Forgot Password</h4>
+      </div>
+      <div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,html: {multipart: :true,:id=>"forgot_form"}, :authenticity_token => true do |f|%>
+          <div class="row">
+            
+            Email:
+            <input type="text" name="email" placeholder="User Name or Email" id="email" class="form-control" autocomplete="off">
+          </div><br>
+          <div class="row">
+          	<input type="submit" class="btn theme-btn form-control" value="Submit" id="sign_in" style="background-color: #d2cdcd;">
+          </div>
+        <%end%>
+        <br>        	
+      </div>  
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+  
+</script>

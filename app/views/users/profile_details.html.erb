@@ -1,0 +1,102 @@
+<style type="text/css">
+
+.line-center{
+    margin:0;padding:0 10px;
+    background:#fff;
+    display:inline-block;
+}
+h3{
+    
+    text-align:center;
+    position:relative;
+    z-index:2;
+    
+}
+h3:after{
+    content:"";
+    position:absolute;
+    /*margin-left: -79%;*/
+    top:50%;
+    left:0;
+    right:0;
+    border-top: 1px dashed black;
+    z-index:-1;
+}
+
+</style>
+<div class="container tm-gray-bg" style="margin-top: 1%;">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" style="margin-top: 1%;">
+      <div class="col-lg-12">
+         <div class="ibox product-detail">
+            <div class="ibox-content">
+               <div class="row" >
+                  <div class="col-md-4">
+                     <div class="product-images">
+                        <div>
+                           <div class="image-imitation">
+                             <img style = "width: 100%;" src='<%=@artist.profile_img.present? ? "#{@artist.profile_img}" : "/assets/placeholder.png"%>'>
+                           </div>
+                        </div><br>
+                      </div>
+                  </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h2 class="font-bold m-b-xs">
+                        <h2><%=@artist.full_name.present? ? @artist.full_name.capitalize : "-" %></h2>
+                        <small><%=@artist.city.capitalize%> <%=country_name(@artist.country).capitalize%></small>
+                      </h2>
+                    </div> 
+                      <div class="col-md-4">
+                        
+                      </div>                  
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <%= simple_format @artist.about %>
+                        </div>
+                      </div>                  
+                  </div>
+               </div>
+             </div>
+              <div class="row">
+                <div class="col-lg-4">
+                 
+                </div>
+                <div class="col-lg-8">
+                  <p class="pull-right" style="margin-right: 2%;"><%= @artist.email %> | <%=@artist.contact_number%></p>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>  
+ <h3 class="dotted"><span class="line-center" style="margin-left: -79%;padding: 8px 10px;">Pentings</span></h3>
+<div class="row">  
+    <div class="section-margin-top">  
+    <%if @pentings.present?%>    
+      <div class="row">        
+        <%@pentings.each_with_index do |penting,index|%>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12" style="border: 1px solid black;border-radius: 4px; padding: 18px;margin-left: 2%;margin-bottom: 2%;">
+            <div class="tm-home-box-2">           
+              <img src="<%=penting.image.present? ? "#{penting.image}" : "/assets/placeholder.png"%>" style="width: 100%;height: 160px;">            
+            </div>
+            <div style="margin-top: 4%;">
+              <center><a href="#">Penting <%=index+1%></a></center>
+            </div>
+          </div>  
+        <%end%>                      
+      </div>   
+      <%else%>
+        <div class="alert alert-danger text-center"><h4>No any pentings available it</h4></div>
+      <%end%>     
+    </div>    
+
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+

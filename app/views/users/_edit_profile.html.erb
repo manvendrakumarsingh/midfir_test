@@ -1,0 +1,49 @@
+ <div class="modal-header">
+    <h4 class="modal-title">Edit Profile</h4>
+  </div>
+
+<div class="modal-body" style="padding: 32px;">
+        <%=form_for :user,url: user_path(@user),method: 'PATCH',html: {:class=>"edit_user_form"} do |f|%>
+          <div class="row" >
+            <div class="col-md-6">
+            <%= f.text_field :id, value: @user.id, hidden: true %>
+            <td><%= f.label 'Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :full_name, class: "form-control", placeholder: "Full Name", required: true%></td>
+
+            <td width="30%"><%= f.label 'Email*', class: 'control-label' %></td>
+            <td><%= f.email_field :email, class: "form-control email", placeholder: "Email", autofocus: true, required: true %></td>
+             <td><%= f.label 'Phone*', class: 'control-label' %></td>
+             <td><%= f.phone_field :contact_number, class: "form-control", placeholder: "Phone", required: true, number: true, maxlength: 256 %></td>
+             <td><%= f.label 'City*', class: 'control-label' %></td>
+            <td><%= f.text_field :city, class: "form-control", placeholder: "City Name", required: true%></td>
+            <td><%= f.label 'Country*', class: 'control-label' %></td>
+            <td><%= f.country_select :country, { priority: %w(GB US), prompt: "Country"}, class: 'form-control country-select', :required=>true %></td>
+            <td><%= f.label 'User Name*', class: 'control-label' %></td>
+            <td><%= f.text_field :user_name, class: "form-control", placeholder: "User Name", required: true%></td>
+            
+            <td><%= f.label 'Password*', class: 'control-label' %></td>
+            <td><%= f.password_field :password, placeholder: "Password", class: "form-control password", autocomplete: "off", required: true, minlength: 8 %></td>
+            <br>
+          </div> 
+            <div class="col-md-6">
+              <td><%= f.label 'About*', class: 'control-label' %></td>
+            <td><%= f.text_area :about, class: "form-control", placeholder: "About", required: true ,style:'height: 385px;'%></td>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-md-6">
+                <td align="center">
+                  <input type="submit" class="btn theme-btn form-control" value="Save" style="background-color: #d2cdcd;">
+                </td>
+              </div>
+              <div class="col-md-6">
+                <td align="center">
+                  <input type="submit" class="btn theme-btn form-control" value="Cancel" style="background-color: #d2cdcd;" data-dismiss="modal">
+                </td>
+              </div>
+            </div>    
+            
+        <%end%>
+        <br>
+        
+      </div> 
